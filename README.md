@@ -15,13 +15,27 @@ Communication is one-way:
 
 Specifically, the length of the data is formatted as a `signed long long int`, which should take 8 bytes.
 
-## Example code
+## Example
 
-TODO, show an example in Python
-
-```
+### Server:
 
 ```
+from simplest import SimplestServer
+server = SimplestServer(('localhost', 6000))
+# alternatively: server = SimplestServer('some_socket')
+server.send(b'arbitrary data here')
+```
+
+### Client:
+
+```
+from simplest import SimplestServer
+server = SimplestServer(('localhost', 6000))
+# alternatively: server = SimplestServer('some_socket')
+server.send(b'arbitrary data here')
+```
+
+
 
 ## List of files
 

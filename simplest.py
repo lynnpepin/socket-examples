@@ -1,5 +1,6 @@
 import socket
 import struct
+import os
 
 class SimplestServer:
     def __init__(self, address = "simplest.sock", timeout = 60, verbose = True):
@@ -77,7 +78,7 @@ class SimplestServer:
         VV = self.V if verbose is None else verbose
         
         # send length of data
-        if VV: print(f"Sending length of data {len(raw_pc)} ...")
+        if VV: print(f"Sending length of data {len(data)} ...")
         num_bytes = struct.pack('<q', len(data))
         self.clientsocket.send(num_bytes)
         if VV: print(f"... Sent!")
@@ -123,7 +124,7 @@ class SimplestClient:
         
         # 2. Instantiate socket
         if self.V: print(f"Creating socket...")
-        self.socket = socket.socket(family=socket.AF, type=socket.SOCK_STREAM)
+        self.socket = socket.socket(family=self.AF, type=socket.SOCK_STREAM)
         self.socket.settimeout(timeout)
         
         # 3. Connect to socket
