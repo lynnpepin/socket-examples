@@ -2,6 +2,7 @@ import socket
 import struct
 import os
 
+
 class SimplestServer:
     def __init__(self, address = "simplest.sock", timeout = 60, verbose = True):
         """
@@ -64,7 +65,13 @@ class SimplestServer:
         
         if self.V: print(f"... Accepted, Connected to client at addr {self.clientaddr}")
     
+    def close(self):
+        self.serversocket.close()
+        self.clientsocket.close()
     
+    def __del__(self):
+        self.close()
+        
     def send(self, data, verbose = None):
         """Send data over the instantiated socket.
         
@@ -137,8 +144,18 @@ class SimplestClient:
             except Exception as e:
                 pass
         if self.V: print(f"... Done!")
+        
+        # 4. Buffering data
+        # Necessary for larger data packets
+        self.buffer = b''
+
+    def close(self):
+        self.socket.close()
     
-    def recv(self, verbose = False):
+    def __del__(self):
+        self.close()
+    
+    def recv(self, verbose = None):
         """
         Receive and return raw data.
         
@@ -150,6 +167,9 @@ class SimplestClient:
         # set verbosity
         VV = self.V if verbose is None else verbose
         
+        # reset buffer
+        self.buffer = b''
+        
         # receive length of data
         if VV: print("Receiving length of data...")
         num_bytes = self.socket.recv(8)
@@ -158,9 +178,12 @@ class SimplestClient:
         
         # receive data
         if VV: print(f"... Receiving bytes ...")
-        data = self.socket.recv(num_bytes)
+        # nheads up, there are probably more efficient ways to work with a buffer
+        while len(self.buffer) < num_bytes:
+            bytes_to_read = num_bytes - len(self.buffer)
+            self.buffer += self.socket.recv(bytes_to_read)
+            
         if VV: print(f"... Received all bytes!")
         
-        # return data
-        return data
+        return self.buffer
         

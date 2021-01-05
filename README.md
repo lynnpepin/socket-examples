@@ -2,9 +2,10 @@
 
 This repo houses a Python implementation of a wrapper for a simple socket protocol. It utilizes `SOCK_STREAM` sockets, and address type is inferred at initialization, of either `SOCK_STREAM` or `AF_UNIX`. Calls are blocking.
 
-This repository is useful for reference and simple applications. I hope to update this with tests and other implementations in the future.
+This repository is useful for reference and simple applications. I hope to update this with tests and other implementations in the future. Should work for most message sizes.
 
-Should work for most message sizes.
+
+This is actually rather bad and not complete, and doesn't work properly for internet sockets.
 
 Communication is one-way:
 
