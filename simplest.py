@@ -95,7 +95,6 @@ class SimplestServer:
         self.clientsocket.send(data)
         if VV: print(f"... Sent!")
 
-# TODO from here down
 class SimplestClient:
     def __init__(self, address = "simplest.sock", timeout = 60,  verbose = True):
         """
@@ -118,7 +117,6 @@ class SimplestClient:
         """
         self.V = verbose
         self.address = address
-        
         
         # 1. Infer socket address family as either AF_INET or AF_UNIX
         if type(self.address[0]) is str and type(self.address[1]) is int:
